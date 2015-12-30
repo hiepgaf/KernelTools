@@ -2,13 +2,15 @@ package com.hieptran.kerneltools;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +22,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private String[] mOptionTitles;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    String mIMEI;
+    private String ADID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
         mOptionList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mOptionTitles));
         mOptionList.setOnItemClickListener(new DrawerItemClickListener());
+        mIMEI = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId().toString();
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
+
         mDrawerToggle = new ActionBarDrawerToggle(
                 MainActivity.this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -70,12 +78,14 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -85,16 +95,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /* The click listner for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     private void selectItem(int position) {
-       // Fragment fragment;
+        // Fragment fragment;
         FragmentManager fragmentManager = getFragmentManager();
 
         switch (position) {
@@ -109,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
             //default:  // update selected item and title, then close the drawer
 
         }
-       //
-        Log.d("HiepTHb", "Test position" + position + " - "+ mOptionTitles[position]);
+        //
+        Log.d("HiepTHb", "Test position" + position + " - " + mOptionTitles[position]);
 
     }
 
@@ -127,14 +129,17 @@ public class MainActivity extends AppCompatActivity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
         getSupportActionBar().setTitle(title);
     }
-    public static class CPUInfo extends Fragment {
+
+    public  class CPUInfo extends Fragment {
         TextView CPUInfoTV, deviceManufacturerModelTV;
         String realManufacturer, valueManufacturer, model;
+
         public CPUInfo() {
             // Empty constructor required for fragment subclasses
         }
@@ -143,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.activity_cpu_info, container, false);
-
+           // getADID();
             CPUInfoTV = (TextView) rootView.findViewById(R.id.CPUInfoTV);
             CPUInfoTV.setText(_getCPUInfo());
 
@@ -153,10 +158,17 @@ public class MainActivity extends AppCompatActivity {
             deviceManufacturerModelTV.setText(_valueManufacturer(realManufacturer) + " " + model);
             return rootView;
         }
+
         public String _getCPUInfo() {
             StringBuilder stringBuffer = new StringBuilder();
             //noinspection deprecation
             stringBuffer.append("ABI: ").append(Build.CPU_ABI).append("\n");
+            stringBuffer.append("Device Name: "+android.os.Build.MODEL).append("\n");
+            stringBuffer.append("Product Name: "+android.os.Build.PRODUCT).append("\n");
+            stringBuffer.append("Manufacturer Name: " + android.os.Build.MANUFACTURER).append("\n");
+            stringBuffer.append("Product Name: "+ android.os.Build.PRODUCT).append("\n");
+            stringBuffer.append("Brand Name:"+ android.os.Build.BRAND).append("\n");
+            stringBuffer.append("IMEI: "+ mIMEI).append("\n");
             if (new File("/proc/cpuinfo").exists()) {
                 try {
                     BufferedReader bufferedReader = new BufferedReader(
@@ -172,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 CPUInfoTV.setText(getString(R.string.device_not_support).toString());
             }
+
             return stringBuffer.toString();
         }
 
@@ -191,6 +204,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return valueManufacturer;
+        }
+
+    }
+
+    /* The click listner for ListView in the navigation drawer */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
         }
     }
 }
