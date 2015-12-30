@@ -13,5 +13,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/about_text"
+        android:layout_weight="1"
         android:text="@string/about_info"/>
 </LinearLayout>

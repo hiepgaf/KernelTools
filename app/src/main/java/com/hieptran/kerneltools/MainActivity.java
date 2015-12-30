@@ -108,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawer(mOptionList);
 
                 break;
+            case 4:
+                Fragment fragment1 = new AboutActivity(this);
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment1).commit();
+                mOptionList.setItemChecked(position, true);
+                setTitle("About Me ^^");
+                mDrawerLayout.closeDrawer(mOptionList);
+
+                break;
             //default:  // update selected item and title, then close the drawer
 
         }
