@@ -15,6 +15,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.hieptran.devices.info.PhoneInfoActivity"
+            android:label="@string/title_activity_devices_info"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.hieptran.devices.info.CpuInfoActivity"
+            android:label="@string/title_activity_cpu_info"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
