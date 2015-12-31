@@ -1,4 +1,4 @@
-package com.hieptran.kerneltools;
+package com.hieptran.kerneltools.*;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package com.hieptran.kerneltools;
+package com.hieptran.kerneltools.*;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 /**
  * Created by Hiep on 12/31/2015.
  */
-public class AboutActivity extends Fragment {
+public class DevicesActivity extends Fragment {
     private TextView mModel;
     private TextView mManufacturer;
     private TextView mBoard;
