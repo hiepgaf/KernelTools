@@ -1,8 +1,9 @@
 package com.hieptran.kerneltools;
 
-import android.app.Fragment;
-import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +13,26 @@ import android.widget.TextView;
 /**
  * Created by Hiep on 12/30/2015.
  */
-public class AboutActivity extends Fragment{
-    private Context mContext;
-    public AboutActivity(Context context) {
-        // Empty constructor required for fragment subclasses
-        mContext = context;
-    }
+public class AboutActivity extends Fragment {
+    private TextView mInfo;
+    private ImageView mAboutIcon;
+    public AboutActivity() {
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.about, container, false);
+        mAboutIcon = (ImageView) rootView.findViewById(R.id.about_icon);
+        mAboutIcon.setOnClickListener(about_icon_click);
         return rootView;
     }
+    View.OnClickListener about_icon_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/member.php?u=6965840"));
+            startActivity(i);
+        }
+    };
 }

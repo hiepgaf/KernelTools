@@ -1,0 +1,132 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.hieptran.devices.info.CpuInfoActivity">
+	<TableLayout>
+	    <TableRow>
+	         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Model"/>
+	           <TextView
+            android:id="@+id/device_model"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	    <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Manufacturer"/>
+	           <TextView
+            android:id="@+id/device_manu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	    <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Board"/>
+	           <TextView
+            android:id="@+id/device_board"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	    <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Hardware"/>
+	           <TextView
+            android:id="@+id/device_hardware"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	    <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Screen Size"/>
+	           <TextView
+            android:id="@+id/device_scr_sz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	    <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Screen Density"/>
+	           <TextView
+            android:id="@+id/device_scr_dst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	    <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Total RAM"/>
+	           <TextView
+            android:id="@+id/device_total_ram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	    <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Available RAM"/>
+	           <TextView
+            android:id="@+id/device_avai_ram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	      <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Total Storage"/>
+	           <TextView
+            android:id="@+id/device_total_storage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	    <TableRow>
+	            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Available Storage"/>
+	           <TextView
+            android:id="@+id/device_avai_storage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+	    </TableRow>
+	</TableLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/deviceManufacturerModelTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/CPUInfoTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>

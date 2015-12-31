@@ -1,12 +1,12 @@
 package com.hieptran.kerneltools;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.hieptran.kerneltools.cpu.CPUTweakActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] mOptionTitles;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    String mIMEI;
+    static String mIMEI;
     private String ADID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+        if (savedInstanceState == null) {
+            selectItem(0);
+        }
     }
 
     @Override
@@ -96,27 +99,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectItem(int position) {
-        // Fragment fragment;
-        FragmentManager fragmentManager = getFragmentManager();
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
-            case 1:
-                Fragment fragment = new CPUInfo();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            case 3:
+                Fragment cpu_tweak_fragment = new CPUTweakActivity();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, cpu_tweak_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle(mTitle);
+                setTitle("");
                 mDrawerLayout.closeDrawer(mOptionList);
-
                 break;
             case 4:
-                Fragment fragment1 = new AboutActivity(this);
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment1).commit();
+                Fragment about_fragment = new AboutActivity();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, about_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("About Me ^^");
+                setTitle("About Me");
                 mDrawerLayout.closeDrawer(mOptionList);
-
                 break;
-            //default:  // update selected item and title, then close the drawer
+            default:  Fragment about_fragment1 = new AboutActivity();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, about_fragment1).commit();
+                mOptionList.setItemChecked(position, true);
+                setTitle("About Me");
+                mDrawerLayout.closeDrawer(mOptionList);
+                break;
 
         }
         //
@@ -144,83 +148,19 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
     }
 
-    public  class CPUInfo extends Fragment {
-        TextView CPUInfoTV, deviceManufacturerModelTV;
-        String realManufacturer, valueManufacturer, model;
-
-        public CPUInfo() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.activity_cpu_info, container, false);
-           // getADID();
-            CPUInfoTV = (TextView) rootView.findViewById(R.id.CPUInfoTV);
-            CPUInfoTV.setText(_getCPUInfo());
-
-            deviceManufacturerModelTV = (TextView) rootView.findViewById(R.id.deviceManufacturerModelTV);
-            realManufacturer = _manufacturer();
-            model = _model();
-            deviceManufacturerModelTV.setText(_valueManufacturer(realManufacturer) + " " + model);
-            return rootView;
-        }
-
-        public String _getCPUInfo() {
-            StringBuilder stringBuffer = new StringBuilder();
-            //noinspection deprecation
-            stringBuffer.append("ABI: ").append(Build.CPU_ABI).append("\n");
-            stringBuffer.append("Device Name: "+android.os.Build.MODEL).append("\n");
-            stringBuffer.append("Product Name: "+android.os.Build.PRODUCT).append("\n");
-            stringBuffer.append("Manufacturer Name: " + android.os.Build.MANUFACTURER).append("\n");
-            stringBuffer.append("Product Name: "+ android.os.Build.PRODUCT).append("\n");
-            stringBuffer.append("Brand Name:"+ android.os.Build.BRAND).append("\n");
-            stringBuffer.append("IMEI: "+ mIMEI).append("\n");
-            if (new File("/proc/cpuinfo").exists()) {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(
-                            new FileReader(new File("/proc/cpuinfo")));
-                    String aLine;
-                    while ((aLine = bufferedReader.readLine()) != null) {
-                        stringBuffer.append(aLine).append("\n");
-                    }
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                CPUInfoTV.setText(getString(R.string.device_not_support).toString());
-            }
-
-            return stringBuffer.toString();
-        }
-
-        public String _manufacturer() {
-            return Build.MANUFACTURER;
-        }
-
-        public String _model() {
-            return Build.MODEL;
-        }
-
-        public String _valueManufacturer(String RealModel) {
-            switch (RealModel) {
-                case "samsung":
-                    valueManufacturer = "Samsung";
-                    break;
-            }
-
-            return valueManufacturer;
-        }
-
-    }
-
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+    /* Called whenever we call invalidateOptionsMenu() */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mOptionList);
+        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
     }
 }
