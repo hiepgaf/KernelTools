@@ -1,4 +1,4 @@
-package com.hieptran.kerneltools.*;
+package com.hieptran.kerneltools.system;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.hieptran.kerneltools.R;
 
 /**
  * Created by Hiep on 12/31/2015.
@@ -26,7 +28,7 @@ public class SystemInfoFragment extends Fragment {
     private TextView mTotalStorage;
 
 
-    public AboutActivity() {
+    public SystemInfoFragment() {
 
     }
 

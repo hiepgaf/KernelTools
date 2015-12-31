@@ -2,7 +2,6 @@ package com.hieptran.kerneltools;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -12,24 +11,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
 
 import com.hieptran.kerneltools.cpu.CPUTweakActivity;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import com.hieptran.kerneltools.devices.DevicesInfoFragment;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -101,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
     private void selectItem(int position) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
+            case 1:
+                Fragment system_info_fragment = new DevicesInfoFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, system_info_fragment).commit();
+                mOptionList.setItemChecked(position, true);
+                setTitle("System Infomations");
+                mDrawerLayout.closeDrawer(mOptionList);
+                break;
             case 3:
                 Fragment cpu_tweak_fragment = new CPUTweakActivity();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, cpu_tweak_fragment).commit();
@@ -112,13 +110,13 @@ public class MainActivity extends AppCompatActivity {
                 Fragment about_fragment = new AboutActivity();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, about_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("About Me");
+                setTitle("Kernel Tweak");
                 mDrawerLayout.closeDrawer(mOptionList);
                 break;
             default:  Fragment about_fragment1 = new AboutActivity();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, about_fragment1).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("About Me");
+                setTitle("Kernel Tweak");
                 mDrawerLayout.closeDrawer(mOptionList);
                 break;
 
