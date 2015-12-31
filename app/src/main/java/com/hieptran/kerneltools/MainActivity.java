@@ -1,12 +1,12 @@
 package com.hieptran.kerneltools;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.hieptran.kerneltools.cpu.CPUTweakActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] mOptionTitles;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    String mIMEI;
+    static String mIMEI;
     private String ADID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,19 +97,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectItem(int position) {
-        // Fragment fragment;
-        FragmentManager fragmentManager = getFragmentManager();
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
             case 1:
-                Fragment fragment = new CPUInfo();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                Fragment cpu_fragment = new CPUInfo();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,cpu_fragment);
                 mOptionList.setItemChecked(position, true);
                 setTitle(mTitle);
                 mDrawerLayout.closeDrawer(mOptionList);
-
                 break;
-            //default:  // update selected item and title, then close the drawer
+            case 3:
+                Fragment cpu_tweak_fragment = new CPUTweakActivity();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, cpu_tweak_fragment).commit();
+                mOptionList.setItemChecked(position, true);
+                setTitle("");
+                mDrawerLayout.closeDrawer(mOptionList);
+                break;
+            case 4:
+                Fragment about_fragment = new AboutActivity();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, about_fragment).commit();
+                mOptionList.setItemChecked(position, true);
+                setTitle("About Me");
+                mDrawerLayout.closeDrawer(mOptionList);
+                break;
+            default:  Fragment about_fragment1 = new AboutActivity();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, about_fragment1).commit();
+                mOptionList.setItemChecked(position, true);
+                setTitle("About Me");
+                mDrawerLayout.closeDrawer(mOptionList);
+                break;
 
         }
         //
@@ -136,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
     }
 
-    public  class CPUInfo extends Fragment {
+    public static class CPUInfo extends Fragment {
         TextView CPUInfoTV, deviceManufacturerModelTV;
         String realManufacturer, valueManufacturer, model;
 
@@ -147,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.activity_cpu_info, container, false);
+            View rootView = inflater.inflate(R.layout.activity_device_info, container, false);
            // getADID();
             CPUInfoTV = (TextView) rootView.findViewById(R.id.CPUInfoTV);
             CPUInfoTV.setText(_getCPUInfo());
