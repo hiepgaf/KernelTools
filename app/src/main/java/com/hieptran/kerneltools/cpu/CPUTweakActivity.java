@@ -2,13 +2,11 @@ package com.hieptran.kerneltools.cpu;
 
 
 import android.app.Activity;
-import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +67,7 @@ public class CPUTweakActivity extends Fragment {
             if (position == 1)
                 return new CPUTweak();
             else
-                return new CPUInfoFragment();
+                return new GovernorFragment();
         }
 
         @Override

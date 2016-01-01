@@ -2,9 +2,7 @@ package com.hieptran.kerneltools.cpu;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.hieptran.kerneltools.MainActivity;
 import com.hieptran.kerneltools.R;
 
 import java.io.IOException;
@@ -100,7 +97,7 @@ public class CPUTweak extends Fragment {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        Log.d("HiepTHb","Current Freq" + currentCPUFrequency);
+       // Log.d("HiepTHb","Current Freq" + currentCPUFrequency);
         return currentCPUFrequency;
     }
 }
