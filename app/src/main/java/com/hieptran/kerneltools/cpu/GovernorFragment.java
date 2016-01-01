@@ -12,8 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hieptran.kerneltools.R;
+import com.hieptran.kerneltools.system.Shell;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +33,7 @@ public class GovernorFragment extends Fragment {
     private LinearLayout mViewMain;
     private ArrayList<String> mArrayAvailableGovernor;
     String selectedGovernor,governor;
+
     private ArrayList<String> mListVarOfGov;
     public GovernorFragment() {
     }
@@ -43,15 +46,15 @@ public class GovernorFragment extends Fragment {
         mCurrentGovernor = (TextView)rootView.findViewById(R.id.current_gov);
         mViewMain = (LinearLayout) rootView.findViewById(R.id.governor_main);
         try {
-            getCMDOutputString(new String[]{"/system/bin/ls", "/sys/devices/system/cpu/cpu0/"});
+            mCurrentGovernor.setText(getBinCommands()[0]);
            // _readAvailableGovernorsForSpinner();
-          //  readListVarOfGov();
+            //readListVarOfGov();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        mCurrentGovernor.setText(_readCurrentGovernor());
+        //mCurrentGovernor.setText(_readCurrentGovernor());
         return rootView;
     }
     public void _readAvailableGovernorsForSpinner() throws Exception {
@@ -88,19 +91,15 @@ public class GovernorFragment extends Fragment {
         return selectedGovernor;
     }
     private void readListVarOfGov() throws Exception {
-        //mArrayAvailableGovernor.addAll(getCMDOutputString(new String[]{"/system/bin/ls", "/sys/devices/system/cpu/cpu0/cpufreq/"+governor}));
-      for(int i =0;i <(getCMDOutputString(new String[]{"/system/bin/ls", "/sys/devices/system/cpu/cpu0/cpufreq/interactive"}).size());i++ ) {
-          Log.d("TestOut",getCMDOutputString(new String[]{"/system/bin/ls", "/sys/devices/system/cpu/cpu0/cpufreq/interactive"}).get(i).toString());
-      }
-
-      /*  File file[] = pathIntoGov.listFiles(new CpuFilter());
+        File pathIntoGov = new File("/sys/devices/system/cpu/cpu0/cpufreq/interective");
+        File file[] = pathIntoGov.listFiles();
         Log.d("HiepTHb", "Test size" + file.length);
       for(int i =0;i <file.length;i++) {
-            TextView tv = new TextView(getActivity());
-          tv.setText(file[i].getName() + "");
-          mViewMain.addView(tv);
-          mArrayAvailableGovernor.add("/sys/devices/system/cpu/cpu0/cpufreq/" + governor);
-        }*/
+
+          mArrayAvailableGovernor.add(file[i].getName()+"-");
+        }
+        _selectGovernorSpinner(mArrayAvailableGovernor);
+
     }
     public String _readCurrentGovernor() {
         ProcessBuilder readOutCurrentGovernor;
@@ -134,20 +133,38 @@ public class GovernorFragment extends Fragment {
             Process process = cmd.start();
             InputStream in = process.getInputStream();
             StringBuilder sb = new StringBuilder();
-            byte[] re = new byte[64];
+            byte[] re = new byte[8];
             int len;
             while ((len = in.read(re)) != -1) {
                 sb.append(new String(re, 0, len));
-                mArrayAvailableGovernor.add(new String(re, 0, len));
+                mArrayAvailableGovernor.add(new String(re, 0, len)+"");
 
             }
             in.close();
             process.destroy();
-            Log.d("HiepTHB",sb.toString());
+            Log.d("HiepTHB", sb.toString());
+            _selectGovernorSpinner(mArrayAvailableGovernor);
+            Toast.makeText(getContext(),mArrayAvailableGovernor.get(0)+"\n test \n"+mArrayAvailableGovernor.size(),Toast.LENGTH_LONG).show();
             return listOutputString;
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         return null;
+    }
+    private String[] getBinCommands() {
+        String[] commands = null;
+        try {
+            commands = Shell.exec("ls /sys/devices/system/cpu/cpu0/cpufreq/interactive/").split("\\s+");
+        } catch (Shell.ShellException e) {
+           // Log.e(DriverActivity.LOG_TAG, e.getMessage());
+        }
+        for (String a:commands
+             ) {
+            mArrayAvailableGovernor.add(a);
+            Log.d("HiepTHb","TESSSST"+ a);
+        }
+        _selectGovernorSpinner(mArrayAvailableGovernor);
+
+        return commands;
     }
 }
