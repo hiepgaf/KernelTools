@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hieptran.kerneltools.utils.AdsTest;
+
 /**
  * Created by Hiep on 12/30/2015.
  */
@@ -31,7 +33,8 @@ public class AboutActivity extends Fragment {
     View.OnClickListener about_icon_click = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/member.php?u=6965840"));
+           // Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/member.php?u=6965840"));
+            Intent i = new Intent(getContext(), AdsTest.class);
             startActivity(i);
         }
     };

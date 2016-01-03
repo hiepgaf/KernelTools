@@ -1,6 +1,7 @@
 package com.hieptran.kerneltools;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 
 import com.hieptran.kerneltools.cpu.CPUTweakActivity;
 import com.hieptran.kerneltools.devices.DevicesInfoFragment;
+import com.hieptran.kerneltools.utils.AdsTest;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -92,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
     private void selectItem(int position) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
+            case 0:
+                Intent i = new Intent(this, AdsTest.class);
+                startActivity(i);
+                break;
             case 1:
                 Fragment system_info_fragment = new DevicesInfoFragment();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, system_info_fragment).commit();
@@ -113,11 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 setTitle("Kernel Tweak");
                 mDrawerLayout.closeDrawer(mOptionList);
                 break;
-            default:  Fragment about_fragment1 = new AboutActivity();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, about_fragment1).commit();
-                mOptionList.setItemChecked(position, true);
-                setTitle("Kernel Tweak");
-                mDrawerLayout.closeDrawer(mOptionList);
+            default:
                 break;
 
         }
