@@ -6,12 +6,11 @@
     <!-- HiepTH -->
     <string name="device_not_support">Có vẻ như thiết bị của bạn chưa ROOT!</string>
     <string-array name="list_options">
-        <item>Thông tin CPU</item>
         <item>Thông tin Thiết bị</item>
-        <item>Tinh chỉnh Kernel</item>
-        <item>Tinh chỉnh CPU</item>
-        <item>Tinh chỉnh ROM</item>
-        <item>Thông tin</item>
+        <item>Thông tin Hệ thống</item>
+        <item>Tùy chỉnh CPU</item>
+        <item>Tùy chỉnh ROM</item>
+        <item>Cài đặt</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

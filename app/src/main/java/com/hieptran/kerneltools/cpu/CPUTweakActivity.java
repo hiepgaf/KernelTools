@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hieptran.kerneltools.R;
+import com.hieptran.kerneltools.fragments.GovernorFragment;
 
 public class CPUTweakActivity extends Fragment {
     private TextView mInfo;
@@ -59,20 +60,12 @@ public class CPUTweakActivity extends Fragment {
         }
         @Override
         public Fragment getItem(int position) {
-
-			/*
-			 * IMPORTANT: This is the point. We create a RootFragment acting as
-			 * a container for other fragments
-			 */
-            if (position == 1)
-                return new CPUTweak();
-            else
                 return new GovernorFragment();
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
     }
 

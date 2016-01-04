@@ -1,8 +1,10 @@
 package com.hieptran.kerneltools;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -19,10 +21,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.hieptran.kerneltools.activity.RomTweakPagerActivity;
 import com.hieptran.kerneltools.cpu.CPUTweakActivity;
-import com.hieptran.kerneltools.devices.DevicesInfoFragment;
-import com.hieptran.kerneltools.utils.AdsTest;
+import com.hieptran.kerneltools.fragments.DevicesInfoFragment;
+import com.hieptran.kerneltools.fragments.GovernorFragment;
+import com.hieptran.kerneltools.fragments.RomInfoFragment;
+import com.hieptran.kerneltools.fragments.SystemInfoFragment;
+import com.stericson.RootTools.RootTools;
+
+import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -36,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new TaskForRoot(this).execute();
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
         mTitle = mDrawerTitle = getSupportActionBar().getTitle();
         mOptionTitles = getResources().getStringArray(R.array.list_options);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -48,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mOptionList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mOptionTitles));
         mOptionList.setOnItemClickListener(new DrawerItemClickListener());
-        mIMEI = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId().toString();
+        //mIMEI = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId().toString();
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
 
@@ -71,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         if (savedInstanceState == null) {
-            selectItem(0);
+            selectItem(4);
         }
     }
 
@@ -93,33 +104,52 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+
         switch (position) {
             case 0:
-                Intent i = new Intent(this, AdsTest.class);
-                startActivity(i);
+
+                Fragment device_info_fragment = new DevicesInfoFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, device_info_fragment).commit();
+                mOptionList.setItemChecked(position, true);
+                setTitle("Devices Infomation");
+                mDrawerLayout.closeDrawer(mOptionList);
                 break;
             case 1:
-                Fragment system_info_fragment = new DevicesInfoFragment();
+
+                Fragment system_info_fragment = new SystemInfoFragment();
+                fragmentManager.beginTransaction().detach(system_info_fragment);
                 fragmentManager.beginTransaction().replace(R.id.content_frame, system_info_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("System Infomations");
+                setTitle("System Infomation");
                 mDrawerLayout.closeDrawer(mOptionList);
                 break;
-            case 3:
-                Fragment cpu_tweak_fragment = new CPUTweakActivity();
+            case 2:
+                mDrawerLayout.closeDrawer(mOptionList);
+                setTitle("CPU Tweak");
+                AlertDialog dialog = new SpotsDialog(this,"Waiting for get \n Governor infomation ");
+                dialog.show();
+                Fragment cpu_tweak_fragment = new GovernorFragment();
+                fragmentManager.beginTransaction().detach(cpu_tweak_fragment);
                 fragmentManager.beginTransaction().replace(R.id.content_frame, cpu_tweak_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("");
-                mDrawerLayout.closeDrawer(mOptionList);
+                dialog.dismiss();
                 break;
-            case 4:
-                Fragment about_fragment = new AboutActivity();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, about_fragment).commit();
+            case 3:
+                Fragment rom_pager_fragment = new RomTweakPagerActivity();
+                fragmentManager.beginTransaction().detach(rom_pager_fragment);
+
+                fragmentManager.beginTransaction().replace(R.id.content_frame, rom_pager_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("Kernel Tweak");
+                setTitle("ROM Tweak");
                 mDrawerLayout.closeDrawer(mOptionList);
                 break;
             default:
+                Fragment about = new AboutActivity();
+
+                fragmentManager.beginTransaction().replace(R.id.content_frame, about).commit();
+                mOptionList.setItemChecked(position, true);
+                setTitle("Kernel Tools");
+                mDrawerLayout.closeDrawer(mOptionList);
                 break;
 
         }
@@ -163,4 +193,38 @@ public class MainActivity extends AppCompatActivity {
         menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
+    private class TaskForRoot extends AsyncTask<Void,Void,Boolean> {
+        Context mconText;
+        AlertDialog dialog  ;
+        public TaskForRoot(Context mContext) {
+            mconText = mContext;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+             dialog = new SpotsDialog(mconText,"Getting Root Permission...");
+
+            dialog.show();
+
+
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return RootTools.isRootAvailable();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            dialog.dismiss();            if(aBoolean) {
+                Toast.makeText(mconText, "Da lay quyen root", Toast.LENGTH_SHORT).show();
+            }
+            else
+                Toast.makeText(mconText, "thietbi chua root", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
 }

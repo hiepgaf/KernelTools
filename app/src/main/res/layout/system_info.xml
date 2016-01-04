@@ -7,7 +7,19 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hieptran.devices.info.CpuInfoActivity">
-	<TableLayout>
+
+	<TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="0,1">
+        <TableRow>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chua xu ly"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textSize="30sp"/>
+        </TableRow>
 	    <TableRow>
 	         <TextView
             android:layout_width="match_parent"

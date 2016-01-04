@@ -6,12 +6,11 @@
     <!-- HiepTH -->
     <string name="device_not_support">YOUR DEVICE IS NOT SUPPORTED AT THIS TIME!</string>
     <string-array name="list_options">
-        <item>CPU Info</item>
         <item>Device Info</item>
         <item>System Info</item>
         <item>CPU Tweak</item>
         <item>ROM Tweak</item>
-        <item>About Me</item>
+        <item>Setting</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -23,6 +22,9 @@
     <string name="kernel_edit_tiles">Kernel Tuning</string>
     <!-- Governor Info -->
     <string name="current_gov">Current Governor</string>
+    <string name="bt_set_governor">Set Governor</string>
+    <string name="bt_set_governor_success">Success</string>
+    <string name="bt_set_governor_loading">Loading</string>
     <string name="avai_gov">Available Governor</string>
     <string name="current_min_freq">Current min freq</string>
     <string name="banner_ad_unit_id">ca-app-pub-6458726730142231/2417865701</string>
