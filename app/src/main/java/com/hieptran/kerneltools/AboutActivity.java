@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.hieptran.kerneltools.utils.AdsTest;
 
 /**
@@ -18,6 +20,7 @@ import com.hieptran.kerneltools.utils.AdsTest;
 public class AboutActivity extends Fragment {
     private TextView mInfo;
     private ImageView mAboutIcon;
+    AdRequest adRequest;
     public AboutActivity() {
 
     }
@@ -28,6 +31,9 @@ public class AboutActivity extends Fragment {
         View rootView = inflater.inflate(R.layout.about, container, false);
         mAboutIcon = (ImageView) rootView.findViewById(R.id.about_icon);
         mAboutIcon.setOnClickListener(about_icon_click);
+        AdView mAdView = (AdView) rootView.findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         return rootView;
     }
     View.OnClickListener about_icon_click = new View.OnClickListener() {

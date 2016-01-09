@@ -3,15 +3,15 @@ package com.hieptran.kerneltools;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
@@ -24,10 +24,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hieptran.kerneltools.activity.RomTweakPagerActivity;
-import com.hieptran.kerneltools.cpu.CPUTweakActivity;
+import com.hieptran.kerneltools.fragments.CPUInfoFragment;
 import com.hieptran.kerneltools.fragments.DevicesInfoFragment;
 import com.hieptran.kerneltools.fragments.GovernorFragment;
-import com.hieptran.kerneltools.fragments.RomInfoFragment;
 import com.hieptran.kerneltools.fragments.SystemInfoFragment;
 import com.stericson.RootTools.RootTools;
 
@@ -49,37 +48,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = mDrawerTitle = getSupportActionBar().getTitle();
         mOptionTitles = getResources().getStringArray(R.array.list_options);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mOptionList = (ListView) findViewById(R.id.left_drawer);
         // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mOptionList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mOptionTitles));
         mOptionList.setOnItemClickListener(new DrawerItemClickListener());
-        //mIMEI = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId().toString();
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
-
+        mIMEI = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId().toString();
+        Toast.makeText(this,mIMEI,Toast.LENGTH_LONG).show();
+        Log.d("HiepTHb","Check IMEI "+ mIMEI);
         mDrawerToggle = new ActionBarDrawerToggle(
                 MainActivity.this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+                mToolbar,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
-        ) {
+        ) ;/*{
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle("List Option");
+                getSupportActionBar().hide();
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
-        };
+        };*/
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         if (savedInstanceState == null) {
             selectItem(4);
@@ -104,14 +102,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        setTitle(mOptionTitles[position]);
 
         switch (position) {
+
             case 0:
 
                 Fragment device_info_fragment = new DevicesInfoFragment();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, device_info_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("Devices Infomation");
                 mDrawerLayout.closeDrawer(mOptionList);
                 break;
             case 1:
@@ -120,27 +119,23 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager.beginTransaction().detach(system_info_fragment);
                 fragmentManager.beginTransaction().replace(R.id.content_frame, system_info_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("System Infomation");
                 mDrawerLayout.closeDrawer(mOptionList);
                 break;
             case 2:
                 mDrawerLayout.closeDrawer(mOptionList);
-                setTitle("CPU Tweak");
-                AlertDialog dialog = new SpotsDialog(this,"Waiting for get \n Governor infomation ");
-                dialog.show();
+
                 Fragment cpu_tweak_fragment = new GovernorFragment();
                 fragmentManager.beginTransaction().detach(cpu_tweak_fragment);
                 fragmentManager.beginTransaction().replace(R.id.content_frame, cpu_tweak_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                dialog.dismiss();
+
                 break;
             case 3:
-                Fragment rom_pager_fragment = new RomTweakPagerActivity();
-                fragmentManager.beginTransaction().detach(rom_pager_fragment);
+                Fragment cpu_pager_fragment = new CPUInfoFragment();
+                fragmentManager.beginTransaction().detach(cpu_pager_fragment);
 
-                fragmentManager.beginTransaction().replace(R.id.content_frame, rom_pager_fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, cpu_pager_fragment).commit();
                 mOptionList.setItemChecked(position, true);
-                setTitle("ROM Tweak");
                 mDrawerLayout.closeDrawer(mOptionList);
                 break;
             default:

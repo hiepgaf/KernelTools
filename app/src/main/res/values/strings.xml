@@ -5,11 +5,13 @@
     <string name="title_activity_cpu_info">Cpu Info</string>
     <!-- HiepTH -->
     <string name="device_not_support">YOUR DEVICE IS NOT SUPPORTED AT THIS TIME!</string>
+    <string name="list_option_tile">List Option</string>
     <string-array name="list_options">
         <item>Device Info</item>
         <item>System Info</item>
+        <item>Governor Tweak</item>
         <item>CPU Tweak</item>
-        <item>ROM Tweak</item>
+        <item>Advance</item>
         <item>Setting</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>

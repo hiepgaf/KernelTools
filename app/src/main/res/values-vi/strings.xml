@@ -1,15 +1,16 @@
 <resources>
-    <string name="app_name">Tùy chỉnh K</string>
-    <string name="title_activity_devices_info">Devices Info</string>
+    <string name="app_name">Công cụ Kernel</string>
+    <string name="title_activity_devices_info">Thông tin Thiết bị</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_cpu_info">Cpu Info</string>
+    <string name="title_activity_cpu_info">Thông tin CPU</string>
     <!-- HiepTH -->
     <string name="device_not_support">Có vẻ như thiết bị của bạn chưa ROOT!</string>
     <string-array name="list_options">
         <item>Thông tin Thiết bị</item>
         <item>Thông tin Hệ thống</item>
+        <item>Tùy chỉnh Governor</item>
         <item>Tùy chỉnh CPU</item>
-        <item>Tùy chỉnh ROM</item>
+        <item>Tuyf chinhr Nang cao</item>
         <item>Cài đặt</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
@@ -19,8 +20,11 @@
     <string name="about_info">Test \n HiepTHb</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="kernel_edit_tiles">Thiết lập</string>
+    <string name="kernel_edit_tiles">Thiết lập Kernel</string>
     <string name="avai_gov">Governor hiện có</string>
     <string name="current_gov">Governor hiện tại</string>
     <string name="current_min_freq">Tần số thấp nhất</string>
+    <string name="bt_set_governor_success"></string>
+    <string name="bt_set_governor">Áp dụng</string>
+    <string name="list_option_tile">Lựa chọn</string>
 </resources>

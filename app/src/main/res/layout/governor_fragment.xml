@@ -64,9 +64,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:gravity="center"
         android:text="@string/bt_set_governor"
-        android:textSize="15sp" />
+        android:textSize="10sp" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/Switch"
@@ -84,7 +83,7 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="12">
+        android:layout_weight="10">
 
         <LinearLayout
             android:id="@+id/main_tuning"
@@ -102,7 +101,8 @@
         android:layout_height="0dip"
         android:layout_weight="1"
         android:enabled="false"
-        android:gravity="center"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_gravity="center_horizontal"
         android:text="Save"
-        android:textSize="15sp" />
+        android:textSize="10sp" />
 </LinearLayout>
